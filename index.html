@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="app.js"></script>
+  
+
+</head>
+
+<body>
+
+<script>
+function myFunction() {
+    var x = document.getElementById("trend1").value;
+    if (x == 8) {
+      document.getElementById("custom2").style.display = 'block';
+      document.getElementById("trend1").style.display='none';
+    }
+    
+}
+
+function myFunction1() {
+    var x = document.getElementById("selection").value;
+    if (x == 8) {
+      document.getElementById("custom").style.display = 'block';
+      document.getElementById("selection").style.display='none';
+    }
+    
+}
+</script>
+
+  
+<div class="container" style="text-align:center;" ng-app="myApp" ng-controller="AppCtrl"> 
+  <h1>GOERS CHALLENGE</h1>
+  <h3>by Ari Pratama Zhorifiandi</h3>
+  <br />        
+                                 
+  <select id="selection" onchange="myFunction1()" ng-change="update()" ng-model="myValue1">
+          <option value="7" ng-selected="true">Past 7 Days</option>
+          <option value="30">Past 30 Days</option>
+          <option value="365">Past 12 Months</option>
+          <option value="8">Custom Range</option>
+        </select>
+  <input id="custom" ng-change="customfunc()" ng-model="myValue" type="number" id="custom2" placeholder="insert custom range" style="margin: 0 auto; display: none;">
+
+
+  <div class="row">
+        <div style="border: solid; height: 160px; width: 160px; display:inline-block; margin: 10pt;">
+          <h2>Total</h2>
+          <h1>{{ numevents }}</h1>
+          <p>events published</p>
+        </div>
+        <div style="border: solid; height: 160px; width: 160px; display:inline-block; margin: 10pt;">
+            <h2>Average</h2>
+              <h1>{{ (numevents / numdays).toFixed(2) }}</h1>
+              <p>events/day</p>
+        </div>
+  </div>
+  <br />
+
+  <div class="row">
+      <div class="col-lg-6">
+      <span>TREND</span>
+      <select id="trend" onchange="drawChart()">
+        <option value="1" selected>TOP 5</option>
+        <option value="2">BOTTOM 5</option>
+        <option value="3">BOTTOM 10</option>
+      </select>
+
+        <div id="chart_div"></div>
+      </div>
+      <div class="col-lg-6">
+      <span>ORGANIZATION</span>
+      <select id="organization" onchange="drawLine(this.value)">
+        <option ng-repeat="x in graph1" ng-value="x.name" >{{x.name}}</option>
+      </select>
+      <br />
+      <br />
+      <br />
+        <div id="chart_div1"></div>
+      </div>
+  </div>
+
+  <div class ="row" style="text-align:center;">
+    <h2 style="text-align: left;">EVENT PERIOD DISTRIBUTION</h2>
+    
+    <div class="col-lg-6">
+        <span>ORGANIZATION</span>
+        <select id="orgtl" onchange="drawTimeline(this.value,document.getElementById('trend1').value)">
+         <option ng-repeat="x in graph1" ng-value="x.name" >{{x.name}}</option>
+      </select>
+    </div>
+    <div class="col-lg-6">
+        <span>Time Range</span>
+        <select id="trend1" onchange="drawTimeline(document.getElementById('orgtl').value,this.value);myFunction()">
+          <option value="7">Past 7 Days</option>
+          <option value="30">Past 30 Days</option>
+          <option value="365">Past 12 Months</option>
+          <option value="8">Custom Range</option>
+        </select>
+        <input id="custom2" ng-change="custom2func()" ng-model="myValue" type="number" id="custom2" placeholder="insert custom range" style="margin: 0 auto; display: none;">
+    </div>
+
+        <div style="border: solid; max-height: 150px; max-width: 160px; display:inline-block; margin: 10pt; padding: 10pt;">
+          <h4>Golden Day</h4>
+          <h3>{{ goldenday }}</h3>
+        </div>
+        <div style="border: solid; max-height: 150px; max-width: 160px; display:inline-block; margin: 10pt; padding: 10pt;">
+            <h4>Golden Month</h4>
+            <h1>{{ goldenmonth }} </h1>
+        </div>
+
+        <div id="timeline" style="height: 400px;"></div>
+  </div>
+
+
+
+</div>
+
+</body>
+</html>
+
