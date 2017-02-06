@@ -6,7 +6,6 @@ app.controller('AppCtrl', function($scope, $http) {
     .then(function (response) {
     	$scope.events = response.data.records; 
     	$scope.countevent = function (lastday) {
-    		console.log("masuk");
     		var threshold;
 	        threshold = new Date();
 	        threshold.setDate(threshold.getDate() - lastday);
@@ -15,7 +14,6 @@ app.controller('AppCtrl', function($scope, $http) {
     			var from = $scope.events[i].date.split("-");
 				var month = parseInt(from[1]) -1;
 				var f = new Date(from[0], month , from[2]);
-				console.log("masuk hem");
     			if (f >= threshold){
     				count++;
     			}
@@ -32,7 +30,6 @@ app.controller('AppCtrl', function($scope, $http) {
     	$scope.graph1 = response.data.graph1; 
     	$scope.goldenday = response.data.goldenday;
     	var arr = $scope.goldenday.split("-");
-    	console.log("arr " + arr[1]);
     	$scope.goldenmonth = arr[1];
 
     	$scope.customfunc = function() {
@@ -60,17 +57,15 @@ app.controller('AppCtrl', function($scope, $http) {
       // draws it.
       function drawChart() {
       	var graph1 = angular.element(document.querySelector('[ng-controller="AppCtrl"]')).scope().graph1;
-      console.log(graph1);
-      console.log(graph1.length);
-      console.log(graph1[0].name);
+      
       //var arrayLength = angular.element(document.querySelector('[ng-controller="AppCtrl"]')).scope().trend;
       
       var array = [["Name", "Total Events", { role: "style" } ]];
       var arrayLength = document.getElementById("trend").value;
-      console.log(arrayLength + "naha");
+
       if (arrayLength == 1){
       	for (var i = graph1.length-1; i >=graph1.length-5 ; i--) {
-      		console.log(i);
+
 	     	array.push([graph1[i].name,graph1[i].sum+0,"green"]);
 	      }
       }
@@ -88,7 +83,6 @@ app.controller('AppCtrl', function($scope, $http) {
 	      }
       } else
       {
-      	console.log("error");
       }
       
       var data = google.visualization.arrayToDataTable(array);
@@ -124,14 +118,11 @@ app.controller('AppCtrl', function($scope, $http) {
       val = (typeof val !== 'undefined') ?  val : document.getElementById("organization").value;
       var data = new google.visualization.DataTable();
       var graph1 = angular.element(document.querySelector('[ng-controller="AppCtrl"]')).scope().graph1;
-      console.log(graph1);
-      console.log(graph1.length);
-      console.log(graph1[0].name);
+      
       data.addColumn('date', 'Day');
      for (var i = 0; i<graph1.length; i++) {
      	if (graph1[i].name == val){
      		data.addColumn('number', graph1[i].name);
-     		console.log("x.name"+graph1[i].name);	
      	}
       }
      /*
@@ -191,7 +182,7 @@ app.controller('AppCtrl', function($scope, $http) {
     function drawTimeline(val,trend) {
     	val = (typeof val !== 'undefined') ?  val : document.getElementById("orgtl").value;
     	trend = (typeof trend !== 'undefined') ?  trend : document.getElementById("trend1").value;
-    	console.log("trend "+trend);
+
         var container = document.getElementById('timeline');
         var chart = new google.visualization.Timeline(container);
         var dataTable = new google.visualization.DataTable();
